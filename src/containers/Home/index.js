@@ -1,23 +1,26 @@
 import React, {useState, useRef,} from "react";
+import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 
 import People from  "../../assets/people.svg";
 import Arrow from "../../assets/arrow.svg";
 
+import H1 from "../../components/Title";
+import ContainerItens from "../../components/ContainerItens";
+import Button from "../../components/Button"
 
 import { 
   Container,
   Image,
-  ConteinerItens,
-  H1,
   InputLabel,
   Input,
-  Button,
 } from './styles'
 
-function App(){
+function Home(){
   const [users, setUsers] =useState([]);
+  const history = useHistory();
+
   const inputName = useRef();
   const inputAge = useRef();
 
@@ -29,12 +32,14 @@ function App(){
     });
 
     setUsers([...users, newUser]);
+
+    history.push("/usuarios");
   }
 
   return (
   <Container>
     <Image alt="logo-imagem" src={People}/>
-    <ConteinerItens>
+    <ContainerItens>
       <H1>Ola!</H1>
       
       <InputLabel>Nome</InputLabel>
@@ -46,9 +51,9 @@ function App(){
       <Button onClick={addNewUser}>
         Cadastrar <img alt="seta" src={Arrow}/>
       </Button>
-    </ConteinerItens>
+    </ContainerItens>
   </Container>
   )
 }
 
-export default App
+export default Home

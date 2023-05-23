@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 
@@ -6,18 +7,19 @@ import Avatar from  "../../assets/avatar.svg";
 import Arrow from "../../assets/arrow.svg";
 import Trash from "../../assets/trash.svg";
 
+import H1 from "../../components/Title";
+import ContainerItens from "../../components/ContainerItens";
+import Button from "../../components/Button";
 
 import { 
   Container,
   Image,
-  ConteinerItens,
-  H1,
-  Button,
   User,
-} from './styles'
+} from "./styles";
 
 function Users(){
   const [users, setUsers] =useState([]);
+  const history = useHistory()
 
   useEffect(() => {
     async function fetchUser(){
@@ -31,14 +33,20 @@ function Users(){
 
   async function deleteUser(userId){
     await axios.delete(`http://localhost:3001/users/${userId}`)
+    
     const newUsers = users.filter(user => user.id !== userId)
+    
     setUsers(newUsers)
+  }
+
+  function goBackPage(){
+    history.push("/");
   }
 
   return (
   <Container>
     <Image alt="logo-imagem" src={Avatar}/>
-    <ConteinerItens>
+    <ContainerItens isBlur={true}>
       <H1>Usuários!</H1>
 
       <ul>
@@ -53,11 +61,10 @@ function Users(){
           ))}
       </ul>
 
-      <Button>
+      <Button isBack={true} onClick={goBackPage}>
       <img alt="seta" src={Arrow}/> Voltar 
       </Button>
-
-    </ConteinerItens>
+    </ContainerItens>
   </Container>
   )
 }
